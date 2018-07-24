@@ -41,7 +41,7 @@ func (c *Client) SaveCookie() error {
 }
 
 func (c *Client) getWithBody(url string) (resp *http.Response, body []byte, err error) {
-	if resp, err = c.Get(url); err != nil {
+	if resp, err = (*scraper.Client)(c).Get(url); err != nil {
 		return
 	} else if resp.StatusCode != 200 {
 		return nil, nil, fmt.Errorf("expected status %s", resp.Status)
