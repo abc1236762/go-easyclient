@@ -21,7 +21,7 @@ func New(needCookieJar bool, cookieFilename, userAgent string) (client *Client, 
 		cookieFilename = ".cookie"
 	}
 	
-	var jar *cookiejar.Jar
+	var jar http.CookieJar
 	if needCookieJar {
 		if jar, err = cookiejar.New(&cookiejar.Options{
 			Filename: cookieFilename,
