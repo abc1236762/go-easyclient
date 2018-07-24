@@ -3,6 +3,7 @@ package easyclient
 import (
 	`errors`
 	`fmt`
+	`io`
 	`io/ioutil`
 	`net/http`
 	`os`
@@ -15,6 +16,10 @@ import (
 )
 
 type Client scraper.Client
+
+func SetLogOutput(w io.Writer) {
+	scraper.Log.SetOutput(w)
+}
 
 func New(needCookieJar bool, cookieFilename, userAgent string) (client *Client, err error) {
 	if cookieFilename == "" {
