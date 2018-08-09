@@ -103,10 +103,13 @@ func (c *Client) Download(url, path string, retryCnt uint64, needRetryWhenBlank 
 		return
 	}
 	
-	var fileTime time.Time
-	if fileTime, err = time.Parse(time.RFC1123,
-		resp.Header.Get("Last-Modified")); err != nil {
-		return
+	if lastModified := resp.Header.Get("Last-Modified");  lastModified != "" {
+		var fileTime time.Time
+		if fileTime, err = time.Parse(time.RFC1123, lastModified); err != nil {
+			return
+		}
+		return os.Chtimes(path, fileTime, fileTime)
 	}
-	return os.Chtimes(path, fileTime, fileTime)
+	
+	return
 }
